@@ -13,13 +13,40 @@ java {
 	}
 }
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // jpa에 jdbc 포함임
+	implementation 'org.springframework.boot:spring-boot-starter-validation' // 유효성 검사
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// jwt 토큰 의존성
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// redis 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// Database
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'  // MariaDB 드라이버
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'  // Redis
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
