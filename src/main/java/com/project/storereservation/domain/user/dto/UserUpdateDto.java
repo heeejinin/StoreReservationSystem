@@ -23,9 +23,8 @@ public class UserUpdateDto {
                 message = "비밀번호는 8자 이상, 영문자, 숫자, 특수문자를 포함해야 합니다.")
         private String password;
 
-        @Size(min = 2, message = "이름은 2자 이상이어야 합니다.")
         private String name;
-
+        private String email;
         private String phone;
     }
 
@@ -37,6 +36,7 @@ public class UserUpdateDto {
     @Builder
     public static class updateResponse {
         Long id;
+        String name;
         String email;
         String phone;
         LocalDateTime updatedAt;
@@ -45,6 +45,7 @@ public class UserUpdateDto {
         public static updateResponse fromEntity(User user) {
             return updateResponse.builder()
                     .id(user.getId())
+                    .name(user.getName())
                     .email(user.getEmail())
                     .phone(user.getPhone())
                     .updatedAt(user.getUpdatedAt())

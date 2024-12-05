@@ -39,7 +39,10 @@ public class UserServiceImpl implements UserService {
 
         // 새로운 회원 생성
         User user = request.toEntity(passwordEncoder.encode(request.getPassword()));
-        return signUpResponse.fromEntity(user);
+
+        User savedUser = userRepository.save(user);
+
+        return signUpResponse.fromEntity(savedUser);
     }
 
     // 로그인
@@ -92,7 +95,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // 프로필 정보 업데이트
-        user.updateProfile(request.getName(), request.getPhone());
+        user.updateProfile(request.getName(), request.getEmail(), request.getPhone());
 
         // 업데이트 정보 저장
         User updateUser = userRepository.save(user);

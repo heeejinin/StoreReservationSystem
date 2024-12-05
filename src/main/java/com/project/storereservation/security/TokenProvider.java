@@ -24,8 +24,7 @@ import java.util.List;
 public class TokenProvider {
 
     private static final String KEY_ROLES = "roles";
-    // 토큰 유효 시간
-    private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60; // 1000밀리 세컨드에 초, 분을 곱해서 총 1시간을 의미
+    private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60; // 토큰 유효시간 1시간(1000밀리 세컨드에 초, 분을 곱해서 총 1시간)
 
     private final UserRepository userRepository;
 
@@ -55,22 +54,22 @@ public class TokenProvider {
                 .compact(); // 토큰 생성
     }
 
-    // 인증 정보 추출
+    // 토큰에서 인증 정보 추출
     public Authentication getAuthentication(String token) {
-        // 1. 토큰에서 email 추출
+        // 1. 토큰에서 email 추출 (이메일로 사용자 조회)
         String userEmail = this.getUserName(token);
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         // 2. Authentication 객채 생성 및 반환
-        return new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(
+                user, "", user.getAuthorities());
     }
 
     // 토큰 유효성 확인
     public String getUserName(String token) {
         return this.parseClaims(token).getSubject();
     }
-
 
     // 토큰 검증
     public boolean validateToken(String token) {
@@ -101,6 +100,5 @@ public class TokenProvider {
         }
 
     }
-
 
 }

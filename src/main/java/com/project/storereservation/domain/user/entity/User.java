@@ -51,7 +51,9 @@ public class User extends BaseTimeEntity implements UserDetails {
     // 현재 사용자가 매니저(점장) 권한을 가지고 있는지 확인
     // @return true: 매니저인 경우, false: 일반 사용자인 경우
     public boolean isManager() {
-        return this.role == UserRole.MANAGER;
+        return this.role == UserRole.MANAGER &&
+                this.getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_MANAGER"));
     }
 
     // 사용자 비밀번호 업데이트
@@ -61,8 +63,9 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     // 사용자 프로필 정보 업데이트 (이름, 전화번호)
     // null이 아닌 값만 업데이트하여 부분 수정 가능
-    public void updateProfile(String name, String phone) {
+    public void updateProfile(String name, String email, String phone) {
         if (name != null) this.name = name;
+        if (email != null) this.email = email;
         if (phone != null) this.phone = phone;
     }
 

@@ -22,13 +22,13 @@ public class UserController {
     private final UserService userService;
 
     // 회원 가입(Auth) API
-    @PostMapping("/signup")
+    @PostMapping("auth/signup")
     public ResponseEntity<UserSingUpDto.signUpResponse> signUp(@Valid @RequestBody SignUpRequest request) {
         return ResponseEntity.ok(userService.signUp(request));
     }
 
     // 로그인(Auth) API
-    @PostMapping("/login")
+    @PostMapping("auth/login")
     public ResponseEntity<AuthResponse> logIn(@Valid @RequestBody UserLogInDto.logInRequest request) {
         return ResponseEntity.ok(userService.logIn(request));
     }
