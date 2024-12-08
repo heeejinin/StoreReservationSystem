@@ -22,7 +22,7 @@ public class ReviewController {
 
     // 리뷰 작성 (매장 이용 완료 사용자)
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER', 'PARTNER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ReviewResponse> createReview(
             @RequestBody @Validated ReviewDto.createRequest request) {
         Long userId = SecurityUtil.getCurrentUserId();
